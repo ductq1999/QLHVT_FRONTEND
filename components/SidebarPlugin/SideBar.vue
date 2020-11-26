@@ -2,11 +2,11 @@
   <div class="sidebar" :data="backgroundColor">
     <div class="sidebar-wrapper" ref="sidebarScrollArea">
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+        <a href="#" class="simple-text logo-mini">
           <img :src="logo" alt="app-logo" />
         </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          {{ title }}
+        <a href="#" class="simple-text logo-normal">
+          QLHVT
         </a>
       </div>
       <slot></slot>
@@ -27,16 +27,6 @@
 export default {
   name: 'sidebar',
   props: {
-    title: {
-      type: String,
-      default: 'Creative Tim',
-      description: 'Sidebar title'
-    },
-    shortTitle: {
-      type: String,
-      default: 'CT',
-      description: 'Sidebar short title'
-    },
     logo: {
       type: String,
       default: 'http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/icon-nuxt.svg',

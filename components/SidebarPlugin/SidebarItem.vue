@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       children: [],
-      collapsed: true
+      collapsed: true,
     };
   },
   computed: {

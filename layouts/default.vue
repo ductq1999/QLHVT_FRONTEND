@@ -6,7 +6,7 @@
       :short-title="$t('sidebar.shortTitle')"
       :title="$t('sidebar.title')"
     >
-      <template slot-scope="props" slot="links">
+      <template slot="links">
         <sidebar-item
           :link="{
             name: $t('sidebar.dashboard'),
@@ -54,6 +54,14 @@
             name: $t('sidebar.regularTables'),
             icon: 'tim-icons icon-puzzle-10',
             path: '/regular'
+          }"
+        ></sidebar-item>
+
+        <sidebar-item
+          :link="{
+            name: $t('driver'),
+            icon: 'tim-icons icon-single-02',
+            path: '/driver/driverList'
           }"
         ></sidebar-item>
 
