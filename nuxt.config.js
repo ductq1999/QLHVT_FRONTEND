@@ -27,8 +27,8 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800'},
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css'}
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css' }
     ],
     bodyAttrs: {
       class: '' // Add `white-content` class here to enable "white" mode.
@@ -53,7 +53,9 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    `~/plugins/dashboard-plugin.js`
+    `~/plugins/dashboard-plugin.js`,
+    { src: '~/plugins/localStorage.js', ssr: false },
+    { src: '~/plugins/axios', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -63,10 +65,16 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    'bootstrap-vue/nuxt',
     '@nuxtjs/pwa',
     'nuxt-i18n',
-    ['@nuxtjs/axios', {baseURL: 'http://localhost:8080/'}]
+    ['@nuxtjs/axios', { baseURL: 'http://localhost:8080/' }]
   ],
+  axios: {
+  },
+  generate: {
+    fallback: true
+  },
   i18n: {
     locales: [
       {
@@ -90,7 +98,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
     },
     babel: {
       plugins: [
