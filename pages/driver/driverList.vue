@@ -62,7 +62,7 @@
               <div class="form-group col-md-6">
                 <label>Thứ tự</label>
                 <select class="form-control" v-model="asc">
-                  <option style="color: black" value="true">Từ A -> Z</option>
+                  <option style="color: black" value="true" selected>Từ A -> Z</option>
                   <option style="color: black" value="false">Từ Z -> A</option>
                 </select>
               </div>
