@@ -162,31 +162,7 @@ export default {
       // when the hash prop changes, this function will be fired.
       this.currentPage = val;
       this.getDriverByCondition();
-    },
-    // asc(val) {
-    //   this.asc = val;
-    //   this.getDriverByCondition();
-    // },
-    // columnSortName(val) {
-    //   this.columnSortName = val;
-    //   this.getDriverByCondition();
-    // },
-    name(val) {
-      this.driver.name = val;
-      this.getDriverByCondition();
-    },
-    // idNumber(val){
-    //   this.driver.idNumber = val
-    //   this.getDriverByCondition()
-    // },
-    // licenseType(val){
-    //   this.driver.licenseType = val
-    //   this.getDriverByCondition()
-    // },
-    // address(val){
-    //   this.driver.address = val
-    //   this.getDriverByCondition()
-    // }
+    }
   },
   computed: {
     ...mapGetters({
