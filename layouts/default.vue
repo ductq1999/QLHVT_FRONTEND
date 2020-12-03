@@ -9,75 +9,10 @@
       <template slot="links">
         <sidebar-item
           :link="{
-            name: $t('sidebar.dashboard'),
-            icon: 'tim-icons icon-chart-pie-36',
-            path: '/'
-          }"
-        >
-        </sidebar-item>
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.icons'),
-            icon: 'tim-icons icon-atom',
-            path: '/icons'
-          }"
-        >
-        </sidebar-item>
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.maps'),
-            icon: 'tim-icons icon-pin',
-            path: '/google'
-          }"
-        >
-        </sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.notifications'),
-            icon: 'tim-icons icon-bell-55',
-            path: '/notifications'
-          }"
-        >
-        </sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.userProfile'),
-            icon: 'tim-icons icon-single-02',
-            path: '/user' }"
-        >
-        </sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.regularTables'),
-            icon: 'tim-icons icon-puzzle-10',
-            path: '/regular'
-          }"
-        ></sidebar-item>
-
-        <sidebar-item
-          :link="{
             name: $t('driver'),
             icon: 'tim-icons icon-single-02',
             path: '/driver/driverList'
           }"
-        ></sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.typography'),
-            icon: 'tim-icons icon-align-center',
-            path: '/typography'
-          }"
-        ></sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.rtl'),
-            icon: 'tim-icons icon-world',
-            path: localePath('/rtl', 'ar') }"
         ></sidebar-item>
 
         <li class="active-pro">
