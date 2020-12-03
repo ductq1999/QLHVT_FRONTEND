@@ -52,17 +52,25 @@
               <div class="form-group col-md-6">
                 <label>Sắp xếp theo</label>
                 <select class="form-control" v-model="columnSortName">
-                  <option style="color: black" value="" selected>Mặc định</option>
+                  <option style="color: black" value="" selected>
+                    Mặc định
+                  </option>
                   <option style="color: black" value="name">Tên</option>
-                  <option style="color: black" value="idNumber">Số chứng minh thư</option>
+                  <option style="color: black" value="idNumber">
+                    Số chứng minh thư
+                  </option>
                   <option style="color: black" value="address">Địa chỉ</option>
-                  <option style="color: black" value="licenseType">Loại GPLX</option>
+                  <option style="color: black" value="licenseType">
+                    Loại GPLX
+                  </option>
                 </select>
               </div>
               <div class="form-group col-md-6">
                 <label>Thứ tự</label>
                 <select class="form-control" v-model="asc">
-                  <option style="color: black" value="true" selected>Từ A -> Z</option>
+                  <option style="color: black" value="true" selected>
+                    Từ A -> Z
+                  </option>
                   <option style="color: black" value="false">Từ Z -> A</option>
                 </select>
               </div>
@@ -84,9 +92,13 @@
                 <th scope="col" style="text-align: center">Hành động</th>
               </tr>
             </thead>
-            <tbody v-if="allDriver">
+            <tbody v-if="allDriver.length > 0">
               <tr v-for="(driver, index) in driverByCondition" :key="index">
-                <td>{{ driver.name }}</td>
+                <td>
+                  <nuxt-link :to="{ path: '/driver/salary/' + driver.id }">{{
+                    driver.name
+                  }}</nuxt-link>
+                </td>
                 <td>{{ formatDate(driver.dateOfBirth) }}</td>
                 <td>{{ driver.idNumber }}</td>
                 <td>{{ driver.address }}</td>
@@ -162,7 +174,7 @@ export default {
       // when the hash prop changes, this function will be fired.
       this.currentPage = val;
       this.getDriverByCondition();
-    }
+    },
   },
   computed: {
     ...mapGetters({
