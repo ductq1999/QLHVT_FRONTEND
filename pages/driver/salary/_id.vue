@@ -42,6 +42,7 @@
               <th scope="col">Loại tài xế</th>
               <th scope="col">Ngày đi</th>
               <th scope="col">Tuyến đường</th>
+              <th scope="col">Lương cơ bản</th>
               <th scope="col" style="text-align: right">Số tiền</th>
             </tr>
           </thead>
@@ -60,6 +61,7 @@
                 {{ driverTrip.trip.buses.first }} -
                 {{ driverTrip.trip.buses.last }}
               </td>
+              <td>{{ numberWithCommas(driverTrip.salaryTrip) }} VNĐ</td>
               <td style="text-align: right">
                 {{
                   numberWithCommas(

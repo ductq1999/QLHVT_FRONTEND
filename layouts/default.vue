@@ -14,13 +14,13 @@
             path: '/driver/driverList'
           }"
         ></sidebar-item>
-
-        <li class="active-pro">
-          <a href="https://www.creative-tim.com/product/nuxt-black-dashboard-pro" target="_blank">
-            <i class="tim-icons icon-spaceship"></i>
-            <p>Upgrade to PRO</p>
-          </a>
-        </li>
+        <sidebar-item
+          :link="{
+            name: $t('trip'),
+            icon: 'tim-icons icon-spaceship',
+            path: '/trip/listTrip'
+          }"
+        ></sidebar-item>
       </template>
     </side-bar>
     <!--Share plugin (for demo purposes). You can remove it if don't plan on using it-->
