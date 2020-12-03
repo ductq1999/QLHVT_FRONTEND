@@ -92,7 +92,7 @@
                 <th scope="col" style="text-align: center">Hành động</th>
               </tr>
             </thead>
-            <tbody v-if="allDriver.length > 0">
+            <tbody v-if="driverByCondition.length > 0">
               <tr v-for="(driver, index) in driverByCondition" :key="index">
                 <td>
                   <nuxt-link :to="{ path: '/driver/salary/' + driver.id }">{{
