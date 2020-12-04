@@ -186,7 +186,6 @@ export default {
     }),
   },
   mounted() {
-    // this.getDriver();
     this.getDriverByCondition();
   },
   methods: {
