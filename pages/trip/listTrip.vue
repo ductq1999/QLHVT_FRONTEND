@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pageSize: 1,
+      pageSize: 3,
       columnSortName: "",
       asc: true,
       trip: {
