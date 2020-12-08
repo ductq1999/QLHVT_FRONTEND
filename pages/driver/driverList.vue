@@ -3,7 +3,7 @@
     <no-ssr>
       <div class="col-md-12">
         <card card-body-classes="table-full-width">
-          <h4 slot="header" class="card-title">Driver</h4>
+          <h4 slot="header" class="card-title">Tài xế</h4>
           <nuxt-link to="add"
             ><i class="tim-icons icon-simple-add"></i> Thêm tài xế</nuxt-link
           >
