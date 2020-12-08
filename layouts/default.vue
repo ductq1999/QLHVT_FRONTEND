@@ -21,6 +21,14 @@
             path: '/trip/listTrip'
           }"
         ></sidebar-item>
+
+         <sidebar-item
+          :link="{
+            name: $t('coach'),
+            icon: 'tim-icons icon-single-02',
+            path: '/coach/coachList'
+          }"
+        ></sidebar-item>
       </template>
     </side-bar>
     <!--Share plugin (for demo purposes). You can remove it if don't plan on using it-->
