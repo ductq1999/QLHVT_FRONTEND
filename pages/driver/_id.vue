@@ -87,6 +87,11 @@
         </div>
       </div>
       <button class="btn btn-primary" @click="updateDriver">Submit</button>
+      <div v-if="errors.length">
+        <div class="validation-error mb-3" style="color: red">
+          <div v-for="(error, index) in errors" :key="index">{{ error }}</div>
+        </div>
+      </div>
     </form>
   </card>
 </template>

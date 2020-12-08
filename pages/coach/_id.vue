@@ -95,10 +95,49 @@
             class="form-control"
             type="date"
             v-model="coach.lastMaintenance"
+            required
           />
         </div>
       </div>
-
+      <div class="form-group row">
+        <label for="example-date-input" class="col-sm-2 col-form-label"
+          >Ngày bảo dưỡng tiếp theo</label
+        >
+        <div class="col-sm-10">
+          <input
+            class="form-control"
+            type="date"
+            :value="formatDate(nextMaintenance)"
+            disabled
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Tổng thu nhập</label>
+        <div class="col-sm-10">
+          <input
+            v-if="totalIncome > 0"
+            type="text"
+            class="form-control"
+            :value="numberWithCommas(totalIncome) + ' VNĐ'"
+            placeholder="Nhập tổng thu nhập"
+            disabled
+          />
+           <input
+            v-else
+            type="text"
+            class="form-control"
+            :value="'0 VNĐ'"
+            placeholder="Nhập tổng thu nhập"
+            disabled
+          />
+        </div>
+      </div>
+      <div v-if="errors.length">
+        <div class="validation-error mb-3" style="color: red">
+          <div v-for="(error, index) in errors" :key="index">{{ error }}</div>
+        </div>
+      </div>
       <button class="btn btn-primary" @click="updateCoach">Submit</button>
     </form>
   </card>
@@ -128,10 +167,15 @@ export default {
     ...mapGetters({
       coachById: "coach/getCoachById",
     }),
-    ...mapState({}),
+    ...mapState({
+      nextMaintenance: (state) => state.coach.nextMaintenance,
+      totalIncome: (state) => state.coach.totalIncome
+    }),
   },
   mounted() {
     this.getCoachById();
+    this.getNextMaintenance();
+    this.getTotalIncome()
   },
   methods: {
     checkForm(e) {
@@ -208,6 +252,7 @@ export default {
         };
         await this.$axios.$put("coach/update", data).then((response) => {
           if (response.code === 200) {
+            this.getNextMaintenance();
             this.$bvToast.toast(`Cập nhật thông tin xe thành công!`, {
               title: "Thông báo",
               autoHideDelay: 5000,
@@ -222,6 +267,30 @@ export default {
           }
         });
       }
+    },
+    async getNextMaintenance() {
+      await this.$axios
+        .$get("coach/getNextMaintenance/" + this.$route.params.id)
+        .then((response) => {
+          if (response.code === 200) {
+            this.$store.dispatch(
+              "coach/setNextMaintenanceAction",
+              response.data
+            );
+          }
+        });
+    },
+    async getTotalIncome() {
+      await this.$axios
+        .$get("coach/getTotalIncome/" + this.$route.params.id)
+        .then((response) => {
+          if (response.code === 200) {
+            this.$store.dispatch("coach/setTotalIncomeAction", response.data);
+          }
+        });
+    },
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
   },
 };

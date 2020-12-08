@@ -1,95 +1,100 @@
 <template>
-    <card>
-        <h5 slot="header" class="title">Add Driver</h5>
-        <form>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Họ và tên</label>
-            <div class="col-sm-10">
-            <input
-                type="text"
-                class="form-control"
-                v-model="driver.name"
-                placeholder="Nhập họ tên"
-                required
-            />
-            </div>
+  <card>
+    <h5 slot="header" class="title">Add Driver</h5>
+    <form>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Họ và tên</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            v-model="driver.name"
+            placeholder="Nhập họ tên"
+            required
+          />
         </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Chứng minh thư</label>
-            <div class="col-sm-10">
-            <input
-                type="text"
-                class="form-control"
-                v-model="driver.idNumber"
-                placeholder="Nhập số chứng minh nhân dân"
-                required
-            />
-            </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Chứng minh thư</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            v-model="driver.idNumber"
+            placeholder="Nhập số chứng minh nhân dân"
+            required
+          />
         </div>
-        <div class="form-group row">
-            <label for="example-date-input" class="col-sm-2 col-form-label"
-            >Ngày sinh</label
-            >
-            <div class="col-sm-10">
-            <input
-                class="form-control"
-                type="date"
-                v-model="driver.dateOfBirth"
-                required
-            />
-            </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-date-input" class="col-sm-2 col-form-label"
+          >Ngày sinh</label
+        >
+        <div class="col-sm-10">
+          <input
+            class="form-control"
+            type="date"
+            v-model="driver.dateOfBirth"
+            required
+          />
         </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Địa chỉ</label>
-            <div class="col-sm-10">
-            <input
-                type="text"
-                class="form-control"
-                v-model="driver.address"
-                placeholder="Nhập địa chỉ"
-                required
-            />
-            </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Địa chỉ</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            v-model="driver.address"
+            placeholder="Nhập địa chỉ"
+            required
+          />
         </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Số bằng lái</label>
-            <div class="col-sm-10">
-            <input
-                type="text"
-                class="form-control"
-                v-model="driver.licenseNumber"
-                placeholder="Nhập số bằng lái"
-                required
-            />
-            </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Số bằng lái</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            v-model="driver.licenseNumber"
+            placeholder="Nhập số bằng lái"
+            required
+          />
         </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Loại bằng lái</label>
-            <div class="col-sm-10">
-            <input
-                type="text"
-                class="form-control"
-                v-model="driver.licenseType"
-                placeholder="Nhập loại bằng lái"
-                required
-            />
-            </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Loại bằng lái</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            v-model="driver.licenseType"
+            placeholder="Nhập loại bằng lái"
+            required
+          />
         </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Năm kinh nghiệm</label>
-            <div class="col-sm-10">
-            <input
-                type="text"
-                class="form-control"
-                v-model="driver.seniority"
-                placeholder="Nhập số năm kinh nghiệm"
-                required
-            />
-            </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Năm kinh nghiệm</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            v-model="driver.seniority"
+            placeholder="Nhập số năm kinh nghiệm"
+            required
+          />
         </div>
-        <button class="btn btn-primary" @click="addDriver">Submit</button>
-        </form>
-    </card>
+      </div>
+      <button class="btn btn-primary" @click="addDriver">Submit</button>
+      <div v-if="errors.length">
+        <div class="validation-error mb-3" style="color: red">
+          <div v-for="(error, index) in errors" :key="index">{{ error }}</div>
+        </div>
+      </div>
+    </form>
+  </card>
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";

@@ -1,76 +1,78 @@
 <template>
   <div>
-    <card card-body-classes="table-full-width">
-      <h4 slot="header" class="card-title">Chuyến xe</h4>
-      <form method="get">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label>Mã chuyến xe</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Nhập mã chuyến xe"
-              v-model="trip.code"
-            />
+    <no-ssr>
+      <card card-body-classes="table-full-width">
+        <h4 slot="header" class="card-title">Chuyến xe</h4>
+        <form method="get">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Mã chuyến xe</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nhập mã chuyến xe"
+                v-model="trip.code"
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label>Sắp xếp theo</label>
-            <select class="form-control" v-model="columnSortName">
-              <option style="color: black" value="" selected>Mặc định</option>
-              <option style="color: black" value="code">Mã chuyến xe</option>
-            </select>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Sắp xếp theo</label>
+              <select class="form-control" v-model="columnSortName">
+                <option style="color: black" value="" selected>Mặc định</option>
+                <option style="color: black" value="code">Mã chuyến xe</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Thứ tự</label>
+              <select class="form-control" v-model="asc">
+                <option style="color: black" value="true" selected>
+                  Từ A -> Z
+                </option>
+                <option style="color: black" value="false">Từ Z -> A</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group col-md-6">
-            <label>Thứ tự</label>
-            <select class="form-control" v-model="asc">
-              <option style="color: black" value="true" selected>
-                Từ A -> Z
-              </option>
-              <option style="color: black" value="false">Từ Z -> A</option>
-            </select>
-          </div>
-        </div>
-        <a class="btn btn-primary" @click="getTripByCondition"> Tìm kiếm </a>
-      </form>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Tuyến</th>
-            <th scope="col">Biển số xe</th>
-            <th scope="col" style="text-align: left">Mã chuyến xe</th>
-            <th scope="col">Ngày đi</th>
-            <th scope="col" style="text-align: left">Giá vé</th>
-            <th scope="col" style="text-align: left">Số khách</th>
-            <th scope="col" style="text-align: center">Hành động</th>
-          </tr>
-        </thead>
-        <tbody v-if="listTrip.length > 0">
-          <tr v-for="(trip, index) in listTrip" :key="index">
-            <td>{{ trip.buses.first }} - {{ trip.buses.last }}</td>
-            <td>{{ trip.coach.licensePlate }}</td>
-            <td style="text-align: left">{{ trip.code }}</td>
-            <td>{{ formatDate(trip.date) }}</td>
-            <td style="text-align: left">{{ trip.fare }}</td>
-            <td style="text-align: left">{{ trip.guestNumber }}</td>
-            <td style="text-align: center">
-              <i class="tim-icons icon-pencil"></i>
-              <i class="tim-icons icon-trash-simple"></i>
-            </td>
-          </tr>
-        </tbody>
-        <tbody v-else>
-          Không có bản ghi
-        </tbody>
-      </table>
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="pageSize"
-      ></b-pagination>
-    </card>
+          <a class="btn btn-primary" @click="getTripByCondition"> Tìm kiếm </a>
+        </form>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Tuyến</th>
+              <th scope="col">Biển số xe</th>
+              <th scope="col" style="text-align: left">Mã chuyến xe</th>
+              <th scope="col">Ngày đi</th>
+              <th scope="col" style="text-align: left">Giá vé</th>
+              <th scope="col" style="text-align: left">Số khách</th>
+              <th scope="col" style="text-align: center">Hành động</th>
+            </tr>
+          </thead>
+          <tbody v-if="listTrip.length > 0">
+            <tr v-for="(trip, index) in listTrip" :key="index">
+              <td>{{ trip.buses.first }} - {{ trip.buses.last }}</td>
+              <td>{{ trip.coach.licensePlate }}</td>
+              <td style="text-align: left">{{ trip.code }}</td>
+              <td>{{ formatDate(trip.date) }}</td>
+              <td style="text-align: left">{{ trip.fare }}</td>
+              <td style="text-align: left">{{ trip.guestNumber }}</td>
+              <td style="text-align: center">
+                <i class="tim-icons icon-pencil"></i>
+                <i class="tim-icons icon-trash-simple"></i>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            Không có bản ghi
+          </tbody>
+        </table>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="pageSize"
+        ></b-pagination>
+      </card>
+    </no-ssr>
   </div>
 </template>
 <script>

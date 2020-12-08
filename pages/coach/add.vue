@@ -100,6 +100,11 @@
         </div>
       </div>
       <button class="btn btn-primary" @click="addCoach">Submit</button>
+      <div v-if="errors.length">
+        <div class="validation-error mb-3" style="color: red">
+          <div v-for="(error, index) in errors" :key="index">{{ error }}</div>
+        </div>
+      </div>
     </form>
   </card>
 </template>
@@ -131,26 +136,29 @@ export default {
   methods: {
     checkForm(e) {
       this.errors = [];
-      if (!this.driver.name) {
-        this.errors.push("Họ tên là bắt buộc.");
+      if (!this.coach.licensePlate) {
+        this.errors.push("Biển số xe là bắt buộc.");
       }
-      if (!this.driver.licenseNumber) {
-        this.errors.push("Số điện thoại là bắt buộc.");
+      if (!this.coach.color) {
+        this.errors.push("Màu sắc là bắt buộc.");
       }
-      if (!this.driver.licenseType) {
-        this.errors.push("Loại bằng lái là bắt buộc.");
+      if (!this.coach.manufacturer) {
+        this.errors.push("Hãng sản xuất là bắt buộc.");
       }
-      if (!this.driver.address) {
-        this.errors.push("Địa chỉ là bắt buộc.");
+      if (!this.coach.carType) {
+        this.errors.push("Loại xe là bắt buộc.");
       }
-      if (!this.driver.dateOfBirth) {
-        this.errors.push("Ngày sinh là bắt buộc.");
+      if (!this.coach.model) {
+        this.errors.push("Model là bắt buộc.");
       }
-      if (!this.driver.seniority) {
-        this.errors.push("Năm kinh nghiệm là bắt buộc.");
+      if (!this.coach.chair) {
+        this.errors.push("Số ghế là bắt buộc.");
       }
-      if (!this.driver.idNumber) {
-        this.errors.push("Số CMND là bắt buộc.");
+      if (!this.coach.yearUsed) {
+        this.errors.push("Số năm sử dụng là bắt buộc.");
+      }
+      if (!this.coach.lastMaintenance) {
+        this.errors.push("Ngày bảo dưỡng cuối cùng là bắt buộc.");
       }
       if (this.errors && this.errors.length > 0) {
         return false;
@@ -160,7 +168,7 @@ export default {
       e.preventDefault();
     },
     async addCoach() {
-    //   if (this.checkForm()) {
+      if (this.checkForm()) {
         let data = {
           licensePlate: this.coach.licensePlate,
           color: this.coach.color,
@@ -170,7 +178,7 @@ export default {
           chair: this.coach.chair,
           yearUsed: this.coach.yearUsed,
           lastMaintenance: this.coach.lastMaintenance,
-          status: this.coach.status
+          status: this.coach.status,
         };
         await this.$axios.$post("coach/add", data).then((response) => {
           if (response.code === 200) {
@@ -195,6 +203,6 @@ export default {
         });
       }
     },
-//   },
+  },
 };
 </script>

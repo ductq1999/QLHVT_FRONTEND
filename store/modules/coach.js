@@ -2,7 +2,9 @@ export const state = () => ({
   coachs: [],
   coach: null,
   coachByCondition: [],
-  rowCoach: null
+  rowCoach: null,
+  nextMaintenance: [],
+  totalIncome: null,
 
 })
 // getter
@@ -16,8 +18,10 @@ const getters = {
   },
   getCoachById: (state) => {
     return state.driver
+  },
+  getTotalIncome: (state) => {
+    return state.totalIncome;
   }
-
 }
 // mutation
 const mutations = {
@@ -29,8 +33,14 @@ const mutations = {
   },
   setCoachByCondition: (state, payload) => {
     state.coachByCondition = payload.data,
-    state.rowCoach = payload.totalRow
-},
+      state.rowCoach = payload.totalRow
+  },
+  setNextMaintenance: (state, payload) => {
+    state.nextMaintenance = payload
+  },
+  setTotalIncome: (state, payload) => {
+    state.totalIncome = payload
+  }
 }
 // action
 const actions = {
@@ -46,6 +56,12 @@ const actions = {
   },
   setCoachByConditionAction: (context, payload) => {
     context.commit('setCoachByCondition', payload)
+  },
+  setNextMaintenanceAction: (context, payload) => {
+    context.commit('setNextMaintenance', payload)
+  },
+  setTotalIncomeAction: (context, payload) => {
+    context.commit('setTotalIncome', payload)
   }
 }
 export default {

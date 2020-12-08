@@ -24,8 +24,8 @@
 
          <sidebar-item
           :link="{
-            name: $t('coach'),
-            icon: 'tim-icons icon-single-02',
+            name: $t('Xe'),
+            icon: 'tim-icons icon-bus-front-12',
             path: '/coach/coachList'
           }"
         ></sidebar-item>

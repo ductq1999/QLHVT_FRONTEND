@@ -134,6 +134,7 @@
                 <th scope="col">Số ghế</th>
                 <th scope="col">Số năm sử dụng</th>
                 <th scope="col">Ngày bảo dướng cuối</th>
+                <!-- <th scope="col">Ngày bảo dướng tiếp theo</th> -->
                 <th scope="col" style="text-align: center">Hành động</th>
               </tr>
             </thead>
@@ -175,8 +176,9 @@
                 <td>{{ coach.model }}</td>
                 <td>{{ coach.chair }}</td>
                 <td>{{ coach.yearUsed }}</td>
-                <td>{{ formatDate(coach.lastMaintenance)}}</td>
-      
+                <td>{{ formatDate(coach.lastMaintenance) }}</td>
+                <!-- <td>{{ formatDate(getNextMaintenance(coach.id)) }}</td> -->
+
                 <!-- <td>{{ driver.idNumber }}</td>
                 <td>{{ driver.address }}</td>
                 <td>{{ driver.licenseNumber }}</td>
@@ -187,7 +189,7 @@
                   </div>
                   <div v-else>Chưa có kinh nghiệm</div>
                 </td> -->
-                 <td style="text-align: center">
+                <td style="text-align: center">
                   <nuxt-link :to="{ path: '/coach/' + coach.id }"
                     ><i class="tim-icons icon-pencil"></i
                   ></nuxt-link>
@@ -223,6 +225,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import NoSSR from "vue-no-ssr";
+import coach, { state } from "~/store/modules/coach";
 export default {
   components: {
     "no-ssr": NoSSR,
@@ -257,7 +260,7 @@ export default {
   computed: {
     ...mapGetters({
       // allDriver: "driver/getAllDriver",
-      allCoach: "coach/getAllCoach",
+      // allCoach: "coach/getAllCoach",
     }),
     ...mapState({
       rows: (state) => state.coach.rowCoach,
@@ -325,11 +328,11 @@ export default {
             this.asc +
             "&licensePlate=" +
             this.coach.licensePlate +
-             "&color=" +
+            "&color=" +
             this.coach.color +
-             "&manufacturer=" +
+            "&manufacturer=" +
             this.coach.manufacturer +
-             "&carType=" +
+            "&carType=" +
             this.coach.carType +
             "&model=" +
             this.coach.model +
@@ -337,7 +340,7 @@ export default {
             this.coach.chair +
             "&yearUsed=" +
             this.coach.yearUsed +
-             "&lastMaintenance=" +
+            "&lastMaintenance=" +
             this.coach.lastMaintenance +
             "&status=" +
             this.coach.status
@@ -346,6 +349,18 @@ export default {
           if (response.code === 200) {
             this.$store.dispatch("coach/setCoachByConditionAction", response);
             console.log("aa", response);
+          }
+        });
+    },
+    async getNextMaintenance(id) {
+      await this.$axios
+        .$get("coach/getNextMaintenance/" + id)
+        .then((response) => {
+          if (response.code === 200) {
+            this.$store.dispatch(
+              "coach/setNextMaintenanceAction",
+              response.data
+            );
           }
         });
     },
