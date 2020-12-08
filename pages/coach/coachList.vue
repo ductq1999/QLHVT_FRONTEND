@@ -91,13 +91,21 @@
                   <option style="color: black" value="" selected>
                     Mặc định
                   </option>
-                  <option style="color: black" value="name">Tên</option>
-                  <option style="color: black" value="idNumber">
-                    Số chứng minh thư
+                  <option style="color: black" value="licensePlate">
+                    Biển số
                   </option>
-                  <option style="color: black" value="address">Địa chỉ</option>
-                  <option style="color: black" value="licenseType">
-                    Loại GPLX
+                  <option style="color: black" value="color">Màu xe</option>
+                  <option style="color: black" value="manufacturer">
+                    Hãng sản xuất
+                  </option>
+                  <option style="color: black" value="carType">Đời xe</option>
+                  <option style="color: black" value="model">Model</option>
+                  <option style="color: black" value="chair">Số ghế</option>
+                  <option style="color: black" value="yearUsed">
+                    Số năm sử dụng
+                  </option>
+                  <option style="color: black" value="lastMaintenance">
+                    Ngày bảo dưỡng cuối
                   </option>
                 </select>
               </div>
@@ -111,7 +119,7 @@
                 </select>
               </div>
             </div>
-            <a class="btn btn-primary" @click="getDriverByCondition">
+            <a class="btn btn-primary" @click="getCoachByCondition">
               Tìm kiếm
             </a>
           </form>
@@ -129,8 +137,8 @@
                 <th scope="col" style="text-align: center">Hành động</th>
               </tr>
             </thead>
-               <tbody v-if="allCoach.length > 0">
-              <tr v-for="(coach, index) in allCoach" :key="index">            
+            <!-- <tbody v-if="allCoach.length > 0">
+              <tr v-for="(coach, index) in allCoach" :key="index">
                 <td>{{ coach.licensePlate }}</td>
                 <td>{{ coach.color }}</td>
                 <td>{{ coach.manufacturer }}</td>
@@ -139,7 +147,7 @@
                 <td>{{ coach.chair }}</td>
                 <td>{{ coach.yearUsed }}</td>
                 <td>{{ coach.lastMaintenance }}</td>
-               
+
                 <td style="text-align: center">
                   <nuxt-link :to="{ path: '/coach/' + coach.id }"
                     ><i class="tim-icons icon-pencil"></i
@@ -152,30 +160,38 @@
             </tbody>
             <tbody v-else>
               Không có bản ghi
-            </tbody>
-            <!-- <tbody v-if="driverByCondition.length > 0">
-              <tr v-for="(driver, index) in driverByCondition" :key="index">
-                <td>
+            </tbody> -->
+            <tbody v-if="coachByCondition.length > 0">
+              <tr v-for="(coach, index) in coachByCondition" :key="index">
+                <!-- <td>
                   <nuxt-link :to="{ path: '/driver/salary/' + driver.id }">{{
                     driver.name
                   }}</nuxt-link>
-                </td>
-                <td>{{ formatDate(driver.dateOfBirth) }}</td>
-                <td>{{ driver.idNumber }}</td>
+                </td> -->
+                <td>{{ coach.licensePlate }}</td>
+                <td>{{ coach.color }}</td>
+                <td>{{ coach.manufacturer }}</td>
+                <td>{{ coach.carType }}</td>
+                <td>{{ coach.model }}</td>
+                <td>{{ coach.chair }}</td>
+                <td>{{ coach.yearUsed }}</td>
+                <td>{{ formatDate(coach.lastMaintenance)}}</td>
+      
+                <!-- <td>{{ driver.idNumber }}</td>
                 <td>{{ driver.address }}</td>
                 <td>{{ driver.licenseNumber }}</td>
-                <td>{{ driver.licenseType }}</td>
-                <td>
+                <td>{{ driver.licenseType }}</td> -->
+                <!-- <td>
                   <div v-if="driver.seniority > 0">
                     {{ driver.seniority }} năm
                   </div>
                   <div v-else>Chưa có kinh nghiệm</div>
-                </td>
-                <td style="text-align: center">
-                  <nuxt-link :to="{ path: '/driver/' + driver.id }"
+                </td> -->
+                 <td style="text-align: center">
+                  <nuxt-link :to="{ path: '/coach/' + coach.id }"
                     ><i class="tim-icons icon-pencil"></i
                   ></nuxt-link>
-                  <a style="cursor: pointer" @click="showModal(driver.id)">
+                  <a style="cursor: pointer" @click="showModal(coach.id)">
                     <i class="tim-icons icon-trash-simple"></i>
                   </a>
                 </td>
@@ -183,7 +199,7 @@
             </tbody>
             <tbody v-else>
               Không có bản ghi
-            </tbody> -->
+            </tbody>
           </table>
         </card>
         <b-pagination
@@ -235,21 +251,21 @@ export default {
     currentPage(val) {
       // when the hash prop changes, this function will be fired.
       this.currentPage = val;
-      this.getDriverByCondition();
+      this.getCoachByCondition();
     },
   },
   computed: {
     ...mapGetters({
-      allDriver: "driver/getAllDriver",
-      allCoach: "coach/getAllCoach"
+      // allDriver: "driver/getAllDriver",
+      allCoach: "coach/getAllCoach",
     }),
     ...mapState({
-      rows: (state) => state.driver.rowDriver,
-      driverByCondition: (state) => state.driver.driverByCondition,
+      rows: (state) => state.coach.rowCoach,
+      coachByCondition: (state) => state.coach.coachByCondition,
     }),
   },
   mounted() {
-    this.getAllCoach();
+    this.getCoachByCondition();
   },
   methods: {
     showModal(id) {
@@ -295,10 +311,10 @@ export default {
       });
     },
 
-    async getDriverByCondition() {
+    async getCoachByCondition() {
       await this.$axios
         .$get(
-          "driver/getCoachByCondition?" +
+          "coach/getCoachByCondition?" +
             "page=" +
             this.currentPage +
             "&pageSize=" +
@@ -307,20 +323,28 @@ export default {
             this.columnSortName +
             "&asc=" +
             this.asc +
-            "&name=" +
-            this.driver.name +
-            "&idNumber=" +
-            this.driver.idNumber +
-            "&licenseType=" +
-            this.driver.licenseType +
-            "&address=" +
-            this.driver.address +
+            "&licensePlate=" +
+            this.coach.licensePlate +
+             "&color=" +
+            this.coach.color +
+             "&manufacturer=" +
+            this.coach.manufacturer +
+             "&carType=" +
+            this.coach.carType +
+            "&model=" +
+            this.coach.model +
+            "&chair=" +
+            this.coach.chair +
+            "&yearUsed=" +
+            this.coach.yearUsed +
+             "&lastMaintenance=" +
+            this.coach.lastMaintenance +
             "&status=" +
-            this.driver.status
+            this.coach.status
         )
         .then((response) => {
           if (response.code === 200) {
-            this.$store.dispatch("driver/setDriverByConditionAction", response);
+            this.$store.dispatch("coach/setCoachByConditionAction", response);
             console.log("aa", response);
           }
         });

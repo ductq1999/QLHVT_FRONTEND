@@ -183,6 +183,7 @@ export default {
             this.coach.lastMaintenance = this.formatDate(
               this.coachById.lastMaintenance
             );
+            this.coach.status = this.coachById.status;
           }
         });
     },

@@ -1,8 +1,9 @@
 export const state = () => ({
   coachs: [],
   coach: null,
-  // driverByCondition: [],
-  // rowDriver: null
+  coachByCondition: [],
+  rowCoach: null
+
 })
 // getter
 const getters = {
@@ -25,6 +26,10 @@ const mutations = {
   },
   setCoachById: (state, payload) => {
     state.driver = payload
+  },
+  setCoachByCondition: (state, payload) => {
+    state.coachByCondition = payload.data,
+    state.rowCoach = payload.totalRow
 },
 }
 // action
@@ -38,7 +43,10 @@ const actions = {
   },
   setCoachByIdAction: (context, payload) => {
     context.commit('setCoachById', payload)
-},
+  },
+  setCoachByConditionAction: (context, payload) => {
+    context.commit('setCoachByCondition', payload)
+  }
 }
 export default {
   namespaced: true,
