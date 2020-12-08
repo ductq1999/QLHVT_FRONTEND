@@ -206,13 +206,13 @@ export default {
     async deleteDriver(id) {
       await this.$axios.$delete("driver/deleteById/" + id).then((response) => {
         if (response.code === 200) {
+          this.getDriverByCondition();
+          this.$refs["my-modal"].hide();
           this.$bvToast.toast(`Xóa tài xế thành công!`, {
             title: "Thông báo",
             autoHideDelay: 5000,
             variant: "success",
           });
-          this.getDriver();
-          this.$refs["my-modal"].hide();
         } else {
           this.$bvToast.toast(`Xóa tài xế thất bại!`, {
             title: "Thông báo",

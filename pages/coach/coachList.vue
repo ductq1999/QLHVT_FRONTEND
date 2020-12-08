@@ -285,13 +285,13 @@ export default {
     async deleteCoach(id) {
       await this.$axios.$delete("coach/deleteById/" + id).then((response) => {
         if (response.code === 200) {
+          this.getCoachByCondition();
+          this.$refs["my-modal"].hide();
           this.$bvToast.toast(`Xóa tài xe thành công!`, {
             title: "Thông báo",
             autoHideDelay: 5000,
             variant: "success",
           });
-          this.getCoach();
-          this.$refs["my-modal"].hide();
         } else {
           this.$bvToast.toast(`Xóa tài xe thất bại!`, {
             title: "Thông báo",
