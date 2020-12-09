@@ -1,6 +1,8 @@
 export const state = () => ({
   busess: [],
   buses: null,
+  busesByCondition: [],
+  rowBuses: null,
 })
 // getter
 const getters = {
@@ -11,11 +13,21 @@ const getters = {
     })
     return result
   },
+  getBusesById: (state) => {
+    return state.buses
+  },
 }
 // mutation
 const mutations = {
   setBusess: (state, payload) => {
     state.busess = payload
+  },
+  setBusesById: (state, payload) => {
+    state.buses = payload
+  },
+  setBusesByCondition: (state, payload) => {
+    state.busesByCondition = payload.data,
+      state.rowBuses = payload.totalRow
   },
 }
 // action
@@ -25,6 +37,12 @@ const actions = {
     if (data.code === 200) {
       commit('setBusess', data.data)
     }
+  },
+  setBusesByIdAction: (context, payload) => {
+    context.commit('setBusesById', payload)
+  },
+  setBusesByConditionAction: (context, payload) => {
+    context.commit('setBusesByCondition', payload)
   },
 }
 export default {

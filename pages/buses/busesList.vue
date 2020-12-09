@@ -14,7 +14,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập điểm đầu"
+                  placeholder="Nhập biển số"
                   v-model="buses.first"
                 />
               </div>
@@ -23,7 +23,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập điểm cuối"
+                  placeholder="Nhập Màu Xe"
                   v-model="buses.last"
                 />
               </div>
@@ -34,16 +34,16 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập độ dài"
+                  placeholder="Nhập loại bằng lái"
                   v-model="buses.length"
                 />
               </div>
               <div class="form-group col-md-6">
-                <label>Độ phức tạp tuyến đường</label>
+                <label>Độ phức tạp</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập độ phức tạp tuyến đường"
+                  placeholder="Nhập đời xe"
                   v-model="buses.complexity"
                 />
               </div>
@@ -55,15 +55,11 @@
                   <option style="color: black" value="" selected>
                     Mặc định
                   </option>
-                  <option style="color: black" value="first">
-                    Điểm đầu
-                  </option>
+                  <option style="color: black" value="first">Điểm đầu</option>
                   <option style="color: black" value="last">Điểm cuối</option>
-                  <option style="color: black" value="length">
-                    Độ dài
-                  </option>
+                  <option style="color: black" value="length">Độ dài</option>
                   <option style="color: black" value="complexity">
-                    Độ phức tạp của tuyến đường
+                    Độ phức tạp
                   </option>
                 </select>
               </div>
@@ -77,7 +73,7 @@
                 </select>
               </div>
             </div>
-            <a class="btn btn-primary" @click="getCoachByCondition">
+            <a class="btn btn-primary" @click="getBusesByCondition">
               Tìm kiếm
             </a>
           </form>
@@ -87,24 +83,23 @@
                 <th scope="col">Điểm đầu</th>
                 <th scope="col">Điểm cuối</th>
                 <th scope="col">Độ dài</th>
-                <th scope="col">Độ phức tạp của tuyến đường</th>
-
-                <!-- <th scope="col">Ngày bảo dướng tiếp theo</th> -->
+                <th scope="col">Độ phức tạp</th>
                 <th scope="col" style="text-align: center">Hành động</th>
               </tr>
             </thead>
-            <tbody v-if="allBuses.length > 0">
-              <tr v-for="(buses, index) in allBuses" :key="index">
+            
+            <tbody v-if="busesByCondition.length > 0">
+              <tr v-for="(buses, index) in busesByCondition" :key="index">
                 <td>{{ buses.first }}</td>
                 <td>{{ buses.last }}</td>
-                <!-- <td>{{ buses.length }}</td> -->
+                <td>{{ buses.length }}</td>
                 <td>{{ buses.complexity }}</td>
-
-                <td style="text-align: center">
-                  <nuxt-link :to="{ path: '/coach/' + coach.id }"
+           
+               <td style="text-align: center">
+                  <nuxt-link :to="{ path: '/buses/' + buses.id }"
                     ><i class="tim-icons icon-pencil"></i
                   ></nuxt-link>
-                  <a style="cursor: pointer" @click="showModal(coach.id)">
+                  <a style="cursor: pointer" @click="showModal(buses.id)">
                     <i class="tim-icons icon-trash-simple"></i>
                   </a>
                 </td>
@@ -113,31 +108,6 @@
             <tbody v-else>
               Không có bản ghi
             </tbody>
-            <!-- <tbody v-if="coachByCondition.length > 0">
-              <tr v-for="(coach, index) in coachByCondition" :key="index">
-            
-                <td>{{ coach.licensePlate }}</td>
-                <td>{{ coach.color }}</td>
-                <td>{{ coach.manufacturer }}</td>
-                <td>{{ coach.carType }}</td>
-                <td>{{ coach.model }}</td>
-                <td>{{ coach.chair }}</td>
-                <td>{{ coach.yearUsed }}</td>
-                <td>{{ formatDate(coach.lastMaintenance) }}</td>
-        
-                <td style="text-align: center">
-                  <nuxt-link :to="{ path: '/coach/' + coach.id }"
-                    ><i class="tim-icons icon-pencil"></i
-                  ></nuxt-link>
-                  <a style="cursor: pointer" @click="showModal(coach.id)">
-                    <i class="tim-icons icon-trash-simple"></i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-            <tbody v-else>
-              Không có bản ghi
-            </tbody> -->
           </table>
         </card>
         <b-pagination
@@ -147,9 +117,9 @@
         ></b-pagination>
       </div>
       <b-modal ref="my-modal" id="modal-scoped">
-        <div>Bạn có chắc chắn muốn xóa tuyến đường này không?</div>
+        <div>Bạn có chắc chắn muốn xóa xe này không?</div>
         <template v-slot:modal-footer="{ cancel }">
-          <b-button size="sm" variant="success" @click="deleteCoach(idd)"
+          <b-button size="sm" variant="success" @click="deleteBuses(idd)"
             >Đồng ý</b-button
           >
           <b-button size="sm" variant="danger" @click="cancel">Hủy bỏ</b-button>
@@ -161,7 +131,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import NoSSR from "vue-no-ssr";
-import coach, { state } from "~/store/modules/coach";
+
 export default {
   components: {
     "no-ssr": NoSSR,
@@ -186,31 +156,30 @@ export default {
     currentPage(val) {
       // when the hash prop changes, this function will be fired.
       this.currentPage = val;
-      this.getCoachByCondition();
+      this.getBusesByCondition();
     },
   },
   computed: {
     ...mapGetters({
-      // allDriver: "driver/getAllDriver",
-      // allCoach: "coach/getAllCoach",
+
       allBuses: "buses/getAllBuses",
     }),
     ...mapState({
-      rows: (state) => state.coach.rowCoach,
-      coachByCondition: (state) => state.coach.coachByCondition,
+      rows: (state) => state.buses.rowBuses,
+      busesByCondition: (state) => state.buses.busesByCondition,
     }),
   },
   mounted() {
-
-    this.getAllBuses();
+    // this.getAllBuses();
+    this.getBusesByCondition();
   },
   methods: {
     showModal(id) {
       this.$refs["my-modal"].show();
       this.idd = id;
     },
-    getCoach() {
-      this.$store.dispatch("coach/getCoachs");
+    getBuses() {
+      this.$store.dispatch("buses/getBusess");
     },
 
     formatDate(date) {
@@ -219,25 +188,25 @@ export default {
         date.slice(8, 10) + "-" + date.slice(5, 7) + "-" + date.slice(0, 4);
       return dateTime;
     },
-    // async deleteCoach(id) {
-    //   await this.$axios.$delete("coach/deleteById/" + id).then((response) => {
-    //     if (response.code === 200) {
-    //       this.getCoachByCondition();
-    //       this.$refs["my-modal"].hide();
-    //       this.$bvToast.toast(`Xóa tài xe thành công!`, {
-    //         title: "Thông báo",
-    //         autoHideDelay: 5000,
-    //         variant: "success",
-    //       });
-    //     } else {
-    //       this.$bvToast.toast(`Xóa tài xe thất bại!`, {
-    //         title: "Thông báo",
-    //         autoHideDelay: 5000,
-    //         variant: "danger",
-    //       });
-    //     }
-    //   });
-    // },
+    async deleteBuses(id) {
+      await this.$axios.$delete("buses/deleteById/" + id).then((response) => {
+        if (response.code === 200) {
+          this.getBusesByCondition();
+          this.$refs["my-modal"].hide();
+          this.$bvToast.toast(`Xóa tuyến xe thành công!`, {
+            title: "Thông báo",
+            autoHideDelay: 5000,
+            variant: "success",
+          });
+        } else {
+          this.$bvToast.toast(`Xóa tuyến xe thất bại!`, {
+            title: "Thông báo",
+            autoHideDelay: 5000,
+            variant: "danger",
+          });
+        }
+      });
+    },
 
     async getAllBuses() {
       await this.$axios.$get("buses/getAll").then((response) => {
@@ -248,56 +217,36 @@ export default {
       });
     },
 
-    // async getCoachByCondition() {
-    //   await this.$axios
-    //     .$get(
-    //       "coach/getCoachByCondition?" +
-    //         "page=" +
-    //         this.currentPage +
-    //         "&pageSize=" +
-    //         this.pageSize +
-    //         "&columnSortName=" +
-    //         this.columnSortName +
-    //         "&asc=" +
-    //         this.asc +
-    //         "&licensePlate=" +
-    //         this.coach.licensePlate +
-    //         "&color=" +
-    //         this.coach.color +
-    //         "&manufacturer=" +
-    //         this.coach.manufacturer +
-    //         "&carType=" +
-    //         this.coach.carType +
-    //         "&model=" +
-    //         this.coach.model +
-    //         "&chair=" +
-    //         this.coach.chair +
-    //         "&yearUsed=" +
-    //         this.coach.yearUsed +
-    //         "&lastMaintenance=" +
-    //         this.coach.lastMaintenance +
-    //         "&status=" +
-    //         this.coach.status
-    //     )
-    //     .then((response) => {
-    //       if (response.code === 200) {
-    //         this.$store.dispatch("coach/setCoachByConditionAction", response);
-    //         console.log("aa", response);
-    //       }
-    //     });
-    // },
-    // async getNextMaintenance(id) {
-    //   await this.$axios
-    //     .$get("coach/getNextMaintenance/" + id)
-    //     .then((response) => {
-    //       if (response.code === 200) {
-    //         this.$store.dispatch(
-    //           "coach/setNextMaintenanceAction",
-    //           response.data
-    //         );
-    //       }
-    //     });
-    // },
+    async getBusesByCondition() {
+      await this.$axios
+        .$get(
+          "buses/getBusesByCondition?" +
+            "page=" +
+            this.currentPage +
+            "&pageSize=" +
+            this.pageSize +
+            "&columnSortName=" +
+            this.columnSortName +
+            "&asc=" +
+            this.asc +
+            "&first=" +
+            this.buses.first +
+            "&last=" +
+            this.buses.last +
+            "&length=" +
+            this.buses.length +
+            "&complexity=" +
+            this.buses.complexity +
+            "&status=" +
+            this.buses.status
+        )
+        .then((response) => {
+          if (response.code === 200) {
+            this.$store.dispatch("buses/setBusesByConditionAction", response);
+            console.log("aa", response);
+          }
+        });
+    },
   },
 };
 </script>

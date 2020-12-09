@@ -17,7 +17,7 @@ const getters = {
     return result
   },
   getCoachById: (state) => {
-    return state.driver
+    return state.coach
   },
   getTotalIncome: (state) => {
     return state.totalIncome;
@@ -29,7 +29,7 @@ const mutations = {
     state.coachs = payload
   },
   setCoachById: (state, payload) => {
-    state.driver = payload
+    state.coach = payload
   },
   setCoachByCondition: (state, payload) => {
     state.coachByCondition = payload.data,
