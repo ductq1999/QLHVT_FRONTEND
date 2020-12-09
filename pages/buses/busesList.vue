@@ -77,9 +77,9 @@
                 </select>
               </div>
             </div>
-            <a class="btn btn-primary" @click="getCoachByCondition">
+            <!-- <a class="btn btn-primary" @click="getCoachByCondition">
               Tìm kiếm
-            </a>
+            </a> -->
           </form>
           <table class="table">
             <thead>
@@ -97,14 +97,14 @@
               <tr v-for="(buses, index) in allBuses" :key="index">
                 <td>{{ buses.first }}</td>
                 <td>{{ buses.last }}</td>
-                <!-- <td>{{ buses.length }}</td> -->
+                <td>{{ buses.length }} km</td>
                 <td>{{ buses.complexity }}</td>
 
                 <td style="text-align: center">
-                  <nuxt-link :to="{ path: '/coach/' + coach.id }"
+                  <nuxt-link :to="{ path: '/coach/' + buses.id }"
                     ><i class="tim-icons icon-pencil"></i
                   ></nuxt-link>
-                  <a style="cursor: pointer" @click="showModal(coach.id)">
+                  <a style="cursor: pointer" @click="showModal(buses.id)">
                     <i class="tim-icons icon-trash-simple"></i>
                   </a>
                 </td>
@@ -140,11 +140,11 @@
             </tbody> -->
           </table>
         </card>
-        <b-pagination
+        <!-- <b-pagination
           v-model="currentPage"
           :total-rows="rows"
           :per-page="pageSize"
-        ></b-pagination>
+        ></b-pagination> -->
       </div>
       <b-modal ref="my-modal" id="modal-scoped">
         <div>Bạn có chắc chắn muốn xóa tuyến đường này không?</div>
@@ -186,7 +186,7 @@ export default {
     currentPage(val) {
       // when the hash prop changes, this function will be fired.
       this.currentPage = val;
-      this.getCoachByCondition();
+      // this.getCoachByCondition();
     },
   },
   computed: {
@@ -196,8 +196,8 @@ export default {
       allBuses: "buses/getAllBuses",
     }),
     ...mapState({
-      rows: (state) => state.coach.rowCoach,
-      coachByCondition: (state) => state.coach.coachByCondition,
+      // rows: (state) => state.coach.rowCoach,
+      // coachByCondition: (state) => state.coach.coachByCondition,
     }),
   },
   mounted() {
@@ -209,9 +209,9 @@ export default {
       this.$refs["my-modal"].show();
       this.idd = id;
     },
-    getCoach() {
-      this.$store.dispatch("coach/getCoachs");
-    },
+    // getCoach() {
+    //   this.$store.dispatch("coach/getCoachs");
+    // },
 
     formatDate(date) {
       let dateTime = "";
