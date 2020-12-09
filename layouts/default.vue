@@ -29,6 +29,14 @@
             path: '/coach/coachList'
           }"
         ></sidebar-item>
+
+          <sidebar-item
+          :link="{
+            name: $t('Tuyến xe'),
+            icon: 'tim-icons icon-bus-front-12',
+            path: '/buses/busesList'
+          }"
+        ></sidebar-item>
       </template>
     </side-bar>
     <!--Share plugin (for demo purposes). You can remove it if don't plan on using it-->
