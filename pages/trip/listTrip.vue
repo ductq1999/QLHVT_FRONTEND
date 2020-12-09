@@ -3,6 +3,9 @@
     <no-ssr>
       <card card-body-classes="table-full-width">
         <h4 slot="header" class="card-title">Chuyến xe</h4>
+         <nuxt-link to="add"
+            ><i class="tim-icons icon-simple-add"></i> Thêm chuyến xe</nuxt-link
+          >
         <form method="get">
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -57,8 +60,15 @@
               <td style="text-align: left">{{ trip.fare }}</td>
               <td style="text-align: left">{{ trip.guestNumber }}</td>
               <td style="text-align: center">
-                <i class="tim-icons icon-pencil"></i>
-                <i class="tim-icons icon-trash-simple"></i>
+                <nuxt-link :to="{ path: '/trip/' + trip.id }"
+                    ><i class="tim-icons icon-pencil"></i
+                  ></nuxt-link>
+                <a style="cursor: pointer" @click="showModal(trip.id)">
+                    <i class="tim-icons icon-trash-simple"></i>
+                  </a>
+                   <nuxt-link :to="{ path: '/trip/addDriverTrip/' + trip.id }"
+                    ><i class="tim-icons icon-user-run" title="thêm tài xế vào chuyến xe"></i
+                  ></nuxt-link>
               </td>
             </tr>
           </tbody>
@@ -73,6 +83,15 @@
         ></b-pagination>
       </card>
     </no-ssr>
+    <b-modal ref="my-modal" id="modal-scoped">
+        <div>Bạn có chắc chắn muốn xóa tài xế này không?</div>
+        <template v-slot:modal-footer="{ cancel }">
+          <b-button size="sm" variant="success" @click="deleteTrip(idd)"
+            >Đồng ý</b-button
+          >
+          <b-button size="sm" variant="danger" @click="cancel">Hủy bỏ</b-button>
+        </template>
+      </b-modal>
   </div>
 </template>
 <script>
@@ -84,6 +103,7 @@ export default {
   },
   data() {
     return {
+      idd: null,
       currentPage: 1,
       pageSize: 3,
       columnSortName: "",
@@ -115,6 +135,10 @@ export default {
     this.getTripByCondition();
   },
   methods: {
+    showModal(id) {
+      this.$refs["my-modal"].show();
+      this.idd = id;
+    },
     async getTripByCondition() {
       await this.$axios
         .$get(
@@ -138,6 +162,25 @@ export default {
             console.log("aa", response);
           }
         });
+    },
+    async deleteTrip(id) {
+      await this.$axios.$delete("trip/deleteById/" + id).then((response) => {
+        if (response.code === 200) {
+          this.getTripByCondition();
+          this.$refs["my-modal"].hide();
+          this.$bvToast.toast(`Xóa chuyến xe thành công!`, {
+            title: "Thông báo",
+            autoHideDelay: 5000,
+            variant: "success",
+          });
+        } else {
+          this.$bvToast.toast(`Xóa chuyến xe thất bại!`, {
+            title: "Thông báo",
+            autoHideDelay: 5000,
+            variant: "danger",
+          });
+        }
+      });
     },
     formatDate(date) {
       let dateTime = "";

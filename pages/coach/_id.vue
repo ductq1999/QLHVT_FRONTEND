@@ -1,6 +1,6 @@
 <template>
   <card>
-    <h5 slot="header" class="title">Edit Coach</h5>
+    <h5 slot="header" class="title">Sửa thông tin xe</h5>
     <form>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Biển số</label>

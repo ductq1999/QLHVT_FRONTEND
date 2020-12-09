@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <no-ssr>
       <card card-body-classes="table-full-width">
-        <h5 slot="header" class="title">Salary</h5>
+        <h5 slot="header" class="title">Lương</h5>
         <form method="get">
           <div class="form-row">
             <div class="form-group col-md-4">

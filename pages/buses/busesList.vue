@@ -14,7 +14,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập biển số"
+                  placeholder="Nhập điểm đầu"
                   v-model="buses.first"
                 />
               </div>
@@ -23,7 +23,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập Màu Xe"
+                  placeholder="Nhập điểm cuối"
                   v-model="buses.last"
                 />
               </div>
@@ -34,7 +34,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập loại bằng lái"
+                  placeholder="Nhập độ dài"
                   v-model="buses.length"
                 />
               </div>
@@ -43,7 +43,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập đời xe"
+                  placeholder="Nhập độ phức tạp"
                   v-model="buses.complexity"
                 />
               </div>
@@ -75,7 +75,7 @@
             </div>
             <a class="btn btn-primary" @click="getBusesByCondition">
               Tìm kiếm
-            </a> -->
+            </a>
           </form>
           <table class="table">
             <thead>
@@ -92,9 +92,8 @@
               <tr v-for="(buses, index) in busesByCondition" :key="index">
                 <td>{{ buses.first }}</td>
                 <td>{{ buses.last }}</td>
-                <td>{{ buses.length }}</td>
-                <td>{{ buses.complexity }}</td>
-           
+                <td>{{ buses.length }} km</td>
+                <td>{{ buses.complexity }}</td>         
                <td style="text-align: center">
                   <nuxt-link :to="{ path: '/buses/' + buses.id }"
                     ><i class="tim-icons icon-pencil"></i
@@ -110,11 +109,11 @@
             </tbody>
           </table>
         </card>
-        <!-- <b-pagination
+        <b-pagination
           v-model="currentPage"
           :total-rows="rows"
           :per-page="pageSize"
-        ></b-pagination> -->
+        ></b-pagination>
       </div>
       <b-modal ref="my-modal" id="modal-scoped">
         <div>Bạn có chắc chắn muốn xóa xe này không?</div>

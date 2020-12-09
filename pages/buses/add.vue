@@ -1,6 +1,6 @@
 <template>
   <card>
-    <h5 slot="header" class="title">Add Buses</h5>
+    <h5 slot="header" class="title">Thêm chặng đường</h5>
     <form>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Điểm đầu</label>
