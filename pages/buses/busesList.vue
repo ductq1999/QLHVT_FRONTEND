@@ -15,7 +15,7 @@
                   type="text"
                   class="form-control"
                   placeholder="Nhập điểm đầu"
-                  v-model="coach.licensePlate"
+                  v-model="buses.first"
                 />
               </div>
               <div class="form-group col-md-6">
@@ -24,7 +24,7 @@
                   type="text"
                   class="form-control"
                   placeholder="Nhập điểm cuối"
-                  v-model="coach.color"
+                  v-model="buses.last"
                 />
               </div>
             </div>
@@ -35,7 +35,7 @@
                   type="text"
                   class="form-control"
                   placeholder="Nhập độ dài"
-                  v-model="coach.manufacturer"
+                  v-model="buses.length"
                 />
               </div>
               <div class="form-group col-md-6">
@@ -44,7 +44,7 @@
                   type="text"
                   class="form-control"
                   placeholder="Nhập độ phức tạp tuyến đường"
-                  v-model="coach.carType"
+                  v-model="buses.complexity"
                 />
               </div>
             </div>
@@ -55,14 +55,14 @@
                   <option style="color: black" value="" selected>
                     Mặc định
                   </option>
-                  <option style="color: black" value="licensePlate">
+                  <option style="color: black" value="first">
                     Điểm đầu
                   </option>
-                  <option style="color: black" value="color">Điểm cuối</option>
-                  <option style="color: black" value="manufacturer">
+                  <option style="color: black" value="last">Điểm cuối</option>
+                  <option style="color: black" value="length">
                     Độ dài
                   </option>
-                  <option style="color: black" value="carType">
+                  <option style="color: black" value="complexity">
                     Độ phức tạp của tuyến đường
                   </option>
                 </select>
@@ -171,7 +171,7 @@ export default {
       idd: null,
       pageSize: 3,
       currentPage: 1,
-      coach: {
+      buses: {
         first: "",
         last: "",
         length: "",
