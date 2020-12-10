@@ -14,7 +14,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập biển số"
+                  placeholder="Nhập điểm đầu"
                   v-model="buses.first"
                 />
               </div>
@@ -23,7 +23,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập Màu Xe"
+                  placeholder="Nhập điểm cuối"
                   v-model="buses.last"
                 />
               </div>
@@ -34,7 +34,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập loại bằng lái"
+                  placeholder="Nhập độ dài"
                   v-model="buses.length"
                 />
               </div>
@@ -43,7 +43,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập đời xe"
+                  placeholder="Nhập độ phức tạp"
                   v-model="buses.complexity"
                 />
               </div>
