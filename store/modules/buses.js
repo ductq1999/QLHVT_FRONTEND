@@ -19,7 +19,7 @@ const getters = {
 }
 // mutation
 const mutations = {
-  setBusess: (state, payload) => {
+  setBuses: (state, payload) => {
     state.busess = payload
   },
   setBusesById: (state, payload) => {
@@ -32,10 +32,10 @@ const mutations = {
 }
 // action
 const actions = {
-  async getBusess({ commit }, payload) {
+  async getBuses({ commit }, payload) {
     const data = await this.$axios.$get('buses/getAll')
     if (data.code === 200) {
-      commit('setBusess', data.data)
+      commit('setBuses', data.data)
     }
   },
   setBusesByIdAction: (context, payload) => {

@@ -5,7 +5,6 @@ export const state = () => ({
   rowCoach: null,
   nextMaintenance: [],
   totalIncome: null,
-
 })
 // getter
 const getters = {

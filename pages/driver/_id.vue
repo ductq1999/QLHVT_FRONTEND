@@ -1,6 +1,6 @@
 <template>
   <card>
-    <h5 slot="header" class="title">Edit Driver</h5>
+    <h5 slot="header" class="title">Sửa thông tin tài xế</h5>
     <form>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Họ và tên</label>

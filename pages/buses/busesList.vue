@@ -92,9 +92,8 @@
               <tr v-for="(buses, index) in busesByCondition" :key="index">
                 <td>{{ buses.first }}</td>
                 <td>{{ buses.last }}</td>
-                <td>{{ buses.length }}</td>
-                <td>{{ buses.complexity }}</td>
-           
+                <td>{{ buses.length }} km</td>
+                <td>{{ buses.complexity }}</td>         
                <td style="text-align: center">
                   <nuxt-link :to="{ path: '/buses/' + buses.id }"
                     ><i class="tim-icons icon-pencil"></i
@@ -178,6 +177,7 @@ export default {
       this.$refs["my-modal"].show();
       this.idd = id;
     },
+
     getBuses() {
       this.$store.dispatch("buses/getBusess");
     },

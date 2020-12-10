@@ -33,7 +33,7 @@
           <sidebar-item
           :link="{
             name: $t('Tuyến xe'),
-            icon: 'tim-icons icon-bus-front-12',
+            icon: 'tim-icons icon-world',
             path: '/buses/busesList'
           }"
         ></sidebar-item>

@@ -1,6 +1,6 @@
 <template>
   <card>
-    <h5 slot="header" class="title">Edit Buses</h5>
+    <h5 slot="header" class="title">Sửa tuyến xe</h5>
     <form>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Điểm đầu</label>
@@ -49,7 +49,12 @@
             required
           />
         </div>
-      </div>         
+      </div>
+      <div v-if="errors.length">
+        <div class="validation-error mb-3" style="color: red">
+          <div v-for="(error, index) in errors" :key="index">{{ error }}</div>
+        </div>
+      </div>
       <button class="btn btn-primary" @click="updateBuses">Submit</button>
     </form>
   </card>
@@ -64,8 +69,8 @@ export default {
         first: null,
         last: null,
         length: null,
-        complexity: null, 
-        status: null,
+        complexity: null,
+        status: 1,
       },
       errors: [],
     };
@@ -75,13 +80,10 @@ export default {
     ...mapGetters({
       busesById: "buses/getBusesById",
     }),
-    ...mapState({
-
-    }),
+    ...mapState({}),
   },
   mounted() {
     this.getBusesById();
-
   },
   methods: {
     checkForm(e) {
@@ -114,7 +116,7 @@ export default {
             this.buses.first = this.busesById.first;
             this.buses.last = this.busesById.last;
             this.buses.length = this.busesById.length;
-            this.buses.complexity = this.busesById.complexity;     
+            this.buses.complexity = this.busesById.complexity;
             this.buses.status = this.busesById.status;
           }
         });
@@ -128,15 +130,14 @@ export default {
       if (this.checkForm()) {
         let data = {
           id: this.busesById.id,
-          first: this.buses.licensePlate,
-          last: this.buses.color,
-          length: this.buses.manufacturer,
-          complexity: this.buses.carType,        
+          first: this.buses.first,
+          last: this.buses.last,
+          length: this.buses.length,
+          complexity: this.buses.complexity,
           status: this.buses.status,
         };
         await this.$axios.$put("buses/update", data).then((response) => {
           if (response.code === 200) {
-            this.getNextMaintenance();
             this.$bvToast.toast(`Cập nhật thông tin xe thành công!`, {
               title: "Thông báo",
               autoHideDelay: 5000,
@@ -152,7 +153,6 @@ export default {
         });
       }
     },
-    
   },
 };
 </script>
