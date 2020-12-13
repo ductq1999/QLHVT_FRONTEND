@@ -68,7 +68,7 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxtjs/pwa',
     'nuxt-i18n',
-    ['@nuxtjs/axios', { baseURL: 'http://localhost:8081/' }]
+    ['@nuxtjs/axios', { baseURL: 'http://localhost:8080/' }]
   ],
   axios: {
   },
