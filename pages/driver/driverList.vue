@@ -112,10 +112,10 @@
                 </td>
                 <td style="text-align: center">
                   <nuxt-link :to="{ path: '/driver/' + driver.id }"
-                    ><i class="tim-icons icon-pencil"></i
+                    ><i class="tim-icons icon-pencil" title="Sửa"></i
                   ></nuxt-link>
                   <a style="cursor: pointer" @click="showModal(driver.id)">
-                    <i class="tim-icons icon-trash-simple"></i>
+                    <i class="tim-icons icon-trash-simple" title="Xóa"></i>
                   </a>
                 </td>
               </tr>

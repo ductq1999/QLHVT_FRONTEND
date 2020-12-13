@@ -61,10 +61,10 @@
               <td style="text-align: left">{{ trip.guestNumber }}</td>
               <td style="text-align: center">
                 <nuxt-link :to="{ path: '/trip/' + trip.id }"
-                    ><i class="tim-icons icon-pencil"></i
+                    ><i class="tim-icons icon-pencil" title="Sửa"></i
                   ></nuxt-link>
                 <a style="cursor: pointer" @click="showModal(trip.id)">
-                    <i class="tim-icons icon-trash-simple"></i>
+                    <i class="tim-icons icon-trash-simple" title="Xóa"></i>
                   </a>
                    <nuxt-link :to="{ path: '/trip/addDriverTrip/' + trip.id }"
                     ><i class="tim-icons icon-user-run" title="thêm tài xế vào chuyến xe"></i
