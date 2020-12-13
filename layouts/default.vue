@@ -9,16 +9,32 @@
       <template slot="links">
         <sidebar-item
           :link="{
-            name: $t('driver'),
+            name: $t('Tài xế'),
             icon: 'tim-icons icon-single-02',
             path: '/driver/driverList'
           }"
         ></sidebar-item>
         <sidebar-item
           :link="{
-            name: $t('trip'),
+            name: $t('Chuyến xe'),
             icon: 'tim-icons icon-spaceship',
             path: '/trip/listTrip'
+          }"
+        ></sidebar-item>
+
+         <sidebar-item
+          :link="{
+            name: $t('Xe'),
+            icon: 'tim-icons icon-bus-front-12',
+            path: '/coach/coachList'
+          }"
+        ></sidebar-item>
+
+          <sidebar-item
+          :link="{
+            name: $t('Tuyến xe'),
+            icon: 'tim-icons icon-world',
+            path: '/buses/busesList'
           }"
         ></sidebar-item>
       </template>

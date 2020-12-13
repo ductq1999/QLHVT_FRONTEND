@@ -3,48 +3,48 @@
     <no-ssr>
       <div class="col-md-12">
         <card card-body-classes="table-full-width">
-          <h4 slot="header" class="card-title">Tài xế</h4>
+          <h4 slot="header" class="card-title">Tuyến xe</h4>
           <nuxt-link to="add"
-            ><i class="tim-icons icon-simple-add"></i> Thêm tài xế</nuxt-link
+            ><i class="tim-icons icon-simple-add"></i> Thêm tuyến xe</nuxt-link
           >
           <form method="get">
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label>Họ tên</label>
+                <label>Điểm đầu</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập họ tên"
-                  v-model="driver.name"
+                  placeholder="Nhập điểm đầu"
+                  v-model="buses.first"
                 />
               </div>
               <div class="form-group col-md-6">
-                <label>Số CMTND</label>
+                <label>Điểm cuối</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập số CMTND"
-                  v-model="driver.idNumber"
+                  placeholder="Nhập điểm cuối"
+                  v-model="buses.last"
                 />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label>Loại bằng lái</label>
+                <label>Độ dài</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập loại bằng lái"
-                  v-model="driver.licenseType"
+                  placeholder="Nhập độ dài"
+                  v-model="buses.length"
                 />
               </div>
               <div class="form-group col-md-6">
-                <label>Địa chỉ</label>
+                <label>Độ phức tạp</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Nhập địa chỉ"
-                  v-model="driver.address"
+                  placeholder="Nhập độ phức tạp"
+                  v-model="buses.complexity"
                 />
               </div>
             </div>
@@ -55,13 +55,11 @@
                   <option style="color: black" value="" selected>
                     Mặc định
                   </option>
-                  <option style="color: black" value="name">Tên</option>
-                  <option style="color: black" value="idNumber">
-                    Số chứng minh thư
-                  </option>
-                  <option style="color: black" value="address">Địa chỉ</option>
-                  <option style="color: black" value="licenseType">
-                    Loại GPLX
+                  <option style="color: black" value="first">Điểm đầu</option>
+                  <option style="color: black" value="last">Điểm cuối</option>
+                  <option style="color: black" value="length">Độ dài</option>
+                  <option style="color: black" value="complexity">
+                    Độ phức tạp
                   </option>
                 </select>
               </div>
@@ -75,46 +73,32 @@
                 </select>
               </div>
             </div>
-            <a class="btn btn-primary" @click="getDriverByCondition">
+            <a class="btn btn-primary" @click="getBusesByCondition">
               Tìm kiếm
             </a>
           </form>
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Tên</th>
-                <th scope="col">Ngày sinh</th>
-                <th scope="col">Số CMTNN</th>
-                <th scope="col">Địa chỉ</th>
-                <th scope="col">Số GPLX</th>
-                <th scope="col">Loại GPLX</th>
-                <th scope="col">Năm kinh nghiệm</th>
+                <th scope="col">Điểm đầu</th>
+                <th scope="col">Điểm cuối</th>
+                <th scope="col">Độ dài</th>
+                <th scope="col">Độ phức tạp</th>
                 <th scope="col" style="text-align: center">Hành động</th>
               </tr>
             </thead>
-            <tbody v-if="driverByCondition.length > 0">
-              <tr v-for="(driver, index) in driverByCondition" :key="index">
-                <td>
-                  <nuxt-link :to="{ path: '/driver/salary/' + driver.id }">{{
-                    driver.name
-                  }}</nuxt-link>
-                </td>
-                <td>{{ formatDate(driver.dateOfBirth) }}</td>
-                <td>{{ driver.idNumber }}</td>
-                <td>{{ driver.address }}</td>
-                <td>{{ driver.licenseNumber }}</td>
-                <td>{{ driver.licenseType }}</td>
-                <td>
-                  <div v-if="driver.seniority > 0">
-                    {{ driver.seniority }} năm
-                  </div>
-                  <div v-else>Chưa có kinh nghiệm</div>
-                </td>
-                <td style="text-align: center">
-                  <nuxt-link :to="{ path: '/driver/' + driver.id }"
+            
+            <tbody v-if="busesByCondition.length > 0">
+              <tr v-for="(buses, index) in busesByCondition" :key="index">
+                <td>{{ buses.first }}</td>
+                <td>{{ buses.last }}</td>
+                <td>{{ buses.length }} km</td>
+                <td>{{ buses.complexity }}</td>         
+               <td style="text-align: center">
+                  <nuxt-link :to="{ path: '/buses/' + buses.id }"
                     ><i class="tim-icons icon-pencil"></i
                   ></nuxt-link>
-                  <a style="cursor: pointer" @click="showModal(driver.id)">
+                  <a style="cursor: pointer" @click="showModal(buses.id)">
                     <i class="tim-icons icon-trash-simple"></i>
                   </a>
                 </td>
@@ -132,9 +116,9 @@
         ></b-pagination>
       </div>
       <b-modal ref="my-modal" id="modal-scoped">
-        <div>Bạn có chắc chắn muốn xóa tài xế này không?</div>
+        <div>Bạn có chắc chắn muốn xóa xe này không?</div>
         <template v-slot:modal-footer="{ cancel }">
-          <b-button size="sm" variant="success" @click="deleteDriver(idd)"
+          <b-button size="sm" variant="success" @click="deleteBuses(idd)"
             >Đồng ý</b-button
           >
           <b-button size="sm" variant="danger" @click="cancel">Hủy bỏ</b-button>
@@ -146,6 +130,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import NoSSR from "vue-no-ssr";
+
 export default {
   components: {
     "no-ssr": NoSSR,
@@ -155,14 +140,11 @@ export default {
       idd: null,
       pageSize: 3,
       currentPage: 1,
-      driver: {
-        name: "",
-        licenseNumber: "",
-        licenseType: "",
-        address: "",
-        dateOfBirth: "",
-        seniority: "",
-        idNumber: "",
+      buses: {
+        first: "",
+        last: "",
+        length: "",
+        complexity: "",
         status: 1,
       },
       columnSortName: "",
@@ -173,28 +155,31 @@ export default {
     currentPage(val) {
       // when the hash prop changes, this function will be fired.
       this.currentPage = val;
-      this.getDriverByCondition();
+      this.getBusesByCondition();
     },
   },
   computed: {
     ...mapGetters({
-      allDriver: "driver/getAllDriver",
+
+      allBuses: "buses/getAllBuses",
     }),
     ...mapState({
-      rows: (state) => state.driver.rowDriver,
-      driverByCondition: (state) => state.driver.driverByCondition,
+      rows: (state) => state.buses.rowBuses,
+      busesByCondition: (state) => state.buses.busesByCondition,
     }),
   },
   mounted() {
-    this.getDriverByCondition();
+    // this.getAllBuses();
+    this.getBusesByCondition();
   },
   methods: {
     showModal(id) {
       this.$refs["my-modal"].show();
       this.idd = id;
     },
-    getDriver() {
-      this.$store.dispatch("driver/getDrivers");
+
+    getBuses() {
+      this.$store.dispatch("buses/getBusess");
     },
 
     formatDate(date) {
@@ -203,18 +188,18 @@ export default {
         date.slice(8, 10) + "-" + date.slice(5, 7) + "-" + date.slice(0, 4);
       return dateTime;
     },
-    async deleteDriver(id) {
-      await this.$axios.$delete("driver/deleteById/" + id).then((response) => {
+    async deleteBuses(id) {
+      await this.$axios.$delete("buses/deleteById/" + id).then((response) => {
         if (response.code === 200) {
-          this.getDriverByCondition();
+          this.getBusesByCondition();
           this.$refs["my-modal"].hide();
-          this.$bvToast.toast(`Xóa tài xế thành công!`, {
+          this.$bvToast.toast(`Xóa tuyến xe thành công!`, {
             title: "Thông báo",
             autoHideDelay: 5000,
             variant: "success",
           });
         } else {
-          this.$bvToast.toast(`Xóa tài xế thất bại!`, {
+          this.$bvToast.toast(`Xóa tuyến xe thất bại!`, {
             title: "Thông báo",
             autoHideDelay: 5000,
             variant: "danger",
@@ -222,10 +207,20 @@ export default {
         }
       });
     },
-    async getDriverByCondition() {
+
+    async getAllBuses() {
+      await this.$axios.$get("buses/getAll").then((response) => {
+        if (response.code === 200) {
+          this.$store.dispatch("buses/getBusess", response);
+          console.log("aa", response);
+        }
+      });
+    },
+
+    async getBusesByCondition() {
       await this.$axios
         .$get(
-          "driver/getDriverByCondition?" +
+          "buses/getBusesByCondition?" +
             "page=" +
             this.currentPage +
             "&pageSize=" +
@@ -234,20 +229,20 @@ export default {
             this.columnSortName +
             "&asc=" +
             this.asc +
-            "&name=" +
-            this.driver.name +
-            "&idNumber=" +
-            this.driver.idNumber +
-            "&licenseType=" +
-            this.driver.licenseType +
-            "&address=" +
-            this.driver.address +
+            "&first=" +
+            this.buses.first +
+            "&last=" +
+            this.buses.last +
+            "&length=" +
+            this.buses.length +
+            "&complexity=" +
+            this.buses.complexity +
             "&status=" +
-            this.driver.status
+            this.buses.status
         )
         .then((response) => {
           if (response.code === 200) {
-            this.$store.dispatch("driver/setDriverByConditionAction", response);
+            this.$store.dispatch("buses/setBusesByConditionAction", response);
             console.log("aa", response);
           }
         });

@@ -1,6 +1,6 @@
 <template>
   <card>
-    <h5 slot="header" class="title">Edit Driver</h5>
+    <h5 slot="header" class="title">Sửa thông tin tài xế</h5>
     <form>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Họ và tên</label>
@@ -87,6 +87,11 @@
         </div>
       </div>
       <button class="btn btn-primary" @click="updateDriver">Submit</button>
+      <div v-if="errors.length">
+        <div class="validation-error mb-3" style="color: red">
+          <div v-for="(error, index) in errors" :key="index">{{ error }}</div>
+        </div>
+      </div>
     </form>
   </card>
 </template>
