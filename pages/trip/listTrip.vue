@@ -57,7 +57,7 @@
               <td>{{ trip.coach.licensePlate }}</td>
               <td style="text-align: left">{{ trip.code }}</td>
               <td>{{ formatDate(trip.date) }}</td>
-              <td style="text-align: left">{{ trip.fare }}</td>
+              <td style="text-align: left">{{ numberWithCommas(trip.fare) }} VNĐ</td>
               <td style="text-align: left">{{ trip.guestNumber }}</td>
               <td style="text-align: center">
                 <nuxt-link :to="{ path: '/trip/' + trip.id }"
@@ -187,6 +187,9 @@ export default {
       dateTime =
         date.slice(8, 10) + "-" + date.slice(5, 7) + "-" + date.slice(0, 4);
       return dateTime;
+    },
+     numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
   },
 };
