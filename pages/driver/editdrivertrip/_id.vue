@@ -36,7 +36,9 @@
           </option>
         </select>
       </div>
-      <button class="btn btn-primary" @click="addDriverTrip()">Submit</button>
+      <button class="btn btn-primary" @click="updateDriverTrip()">
+        Submit
+      </button>
       <div v-if="errors.length">
         <div class="validation-error mb-3" style="color: red">
           <div v-for="(error, index) in errors" :key="index">{{ error }}</div>
@@ -67,6 +69,7 @@ export default {
   computed: {
     ...mapGetters({
       allDriver: "driver/getAllDriver",
+      driverTripById: "driverTrip/getDriverTripById",
     }),
     ...mapState({}),
   },
@@ -93,21 +96,53 @@ export default {
       }
       e.preventDefault();
     },
+    async updateDriverTrip() {
+      if (this.checkForm()) {
+        let data = {
+          id: this.driverTripById.id,
+          driverType: this.driverTrip.driverType,
+          salaryTrip: this.driverTrip.salaryTrip,
+          
+          trip: {
+            id: this.driverTrip.trip.id,
+          },
+          driver: {
+            id: this.driverTrip.driver.id,
+          },
+        };
+        await this.$axios.$put("driverTrip/update", data).then((response) => {
+          if (response.code === 200) {
+            this.$bvToast.toast(`Cập nhật thông tin chuyến đi thành công!`, {
+              title: "Thông báo",
+              autoHideDelay: 5000,
+              variant: "success",
+            });
+          } else {
+            this.$bvToast.toast(`Cập nhật thông tin chuyến đi thất bại!`, {
+              title: "Thông báo",
+              autoHideDelay: 5000,
+              variant: "danger",
+            });
+          }
+        });
+      }
+    },
 
     async getDriverTripById() {
-      // await this.$axios
-      //   .$get("driverTrip/" + this.$route.params.id)
-      //   .then((response) => {
-      //     if (response.code === 200) {
-      //       this.$store.dispatch("driverTrip/setDriverTripByIdAction", response.data);
-      //       // this.trip.code = this.tripById.code;
-      //       // this.trip.date = this.formatDate(this.tripById.date);
-      //       // this.trip.fare = this.tripById.fare;
-      //       // this.trip.guestNumber = this.tripById.guestNumber;
-      //       // this.trip.coach.id = this.tripById.coach.id;
-      //       // this.trip.buses.id = this.tripById.buses.id;
-      //     }
-      //   });
+      await this.$axios
+        .$get("driverTrip/" + this.$route.params.id)
+        .then((response) => {
+          if (response.code === 200) {
+            this.$store.dispatch(
+              "driverTrip/setDriverTripByIdAction",
+              response.data
+            );
+            this.driverTrip.driverType = this.driverTripById.driverType;
+            this.driverTrip.salaryTrip = this.driverTripById.salaryTrip;
+            this.driverTrip.trip.id = this.driverTripById.trip.id;
+            this.driverTrip.driver.id = this.driverTripById.driver.id;
+          }
+        });
     },
     async addDriverTrip() {
       if (this.checkForm()) {
