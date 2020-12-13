@@ -44,6 +44,7 @@
               <th scope="col">Tuyến đường</th>
               <th scope="col">Lương cơ bản</th>
               <th scope="col" style="text-align: right">Số tiền</th>
+              <th scope="col" style="text-align: center">Hành động</th>
             </tr>
           </thead>
           <tbody v-if="salaryDay.length > 0">
@@ -72,6 +73,14 @@
                 }}
                 VNĐ
               </td>
+              <td style="text-align: center">
+                <nuxt-link :to="{ path: '/driver/editdrivertrip/' + driverTrip.id }"
+                  ><i class="tim-icons icon-pencil"></i
+                ></nuxt-link>
+                <a style="cursor: pointer" @click="showModal(driverTrip.id)">
+                  <i class="tim-icons icon-trash-simple"></i>
+                </a>
+              </td>
             </tr>
           </tbody>
           <tbody v-else>
@@ -79,6 +88,20 @@
           </tbody>
         </table>
       </card>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="pageSize"
+      ></b-pagination>
+      <b-modal ref="my-modal" id="modal-scoped">
+        <div>Bạn có chắc chắn muốn xóa lương này không?</div>
+        <template v-slot:modal-footer="{ cancel }">
+          <b-button size="sm" variant="success" @click="deleteDriverTrip(idd)"
+            >Đồng ý</b-button
+          >
+          <b-button size="sm" variant="danger" @click="cancel">Hủy bỏ</b-button>
+        </template>
+      </b-modal>
     </no-ssr>
   </div>
 </template>
@@ -109,6 +132,10 @@ export default {
     this.getDriverTripByDriverId();
   },
   methods: {
+    showModal(id) {
+      this.$refs["my-modal"].show();
+      this.idd = id;
+    },
     checkForm(e) {
       this.errors = [];
       if (!this.month) {
@@ -137,6 +164,27 @@ export default {
           }
         });
     },
+
+    async deleteDriverTrip(id) {
+      await this.$axios.$delete("driverTrip/deleteById/" + id).then((response) => {
+        if (response.code === 200) {
+          this.getDriverTripByDriverId();
+          this.$refs["my-modal"].hide();
+          this.$bvToast.toast(`Xóa lương tài xế thành công!`, {
+            title: "Thông báo",
+            autoHideDelay: 5000,
+            variant: "success",
+          });
+        } else {
+          this.$bvToast.toast(`Xóa lương tài xế thất bại!`, {
+            title: "Thông báo",
+            autoHideDelay: 5000,
+            variant: "danger",
+          });
+        }
+      });
+    },
+
     async getSalaryMonth() {
       if (this.checkForm()) {
         await this.$axios
