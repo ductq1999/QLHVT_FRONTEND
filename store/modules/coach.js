@@ -5,6 +5,7 @@ export const state = () => ({
   rowCoach: null,
   nextMaintenance: [],
   totalIncome: null,
+  coachOverDue: []
 })
 // getter
 const getters = {
@@ -20,6 +21,13 @@ const getters = {
   },
   getTotalIncome: (state) => {
     return state.totalIncome;
+  },
+  getCoachOverDue: (state) => {
+    let result = [];
+    state.coachOverDue.filter((item) => {
+      result.push(item)
+    })
+    return result
   }
 }
 // mutation
@@ -39,6 +47,9 @@ const mutations = {
   },
   setTotalIncome: (state, payload) => {
     state.totalIncome = payload
+  },
+  setCoachOverDue: (state, payload) => {
+    state.coachOverDue = payload
   }
 }
 // action
@@ -61,7 +72,13 @@ const actions = {
   },
   setTotalIncomeAction: (context, payload) => {
     context.commit('setTotalIncome', payload)
-  }
+  },
+  async getCoachOverDue({ commit }, payload) {
+    const data = await this.$axios.$get('coach/getCoachOverDue')
+    if (data.code === 200) {
+      commit('setCoachOverDue', data.data)
+    }
+  },
 }
 export default {
   namespaced: true,

@@ -65,24 +65,6 @@
                   v-model="coach.chair"
                 />
               </div>
-              <div class="form-group col-md-6">
-                <label>Số năm sử dụng</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nhập số năm sử dụng"
-                  v-model="coach.yearUsed"
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label>Ngày bảo dướng cuối</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nhập ngày bảo dưỡng cuối"
-                  v-model="coach.lastMaintenance"
-                />
-              </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
@@ -155,6 +137,7 @@
           :total-rows="rows"
           :per-page="pageSize"
         ></b-pagination>
+        <nuxt-link to="coachOverDue">Xem danh dách xe quá hạn bảo dưỡng</nuxt-link>
       </div>
       <b-modal ref="my-modal" id="modal-scoped">
         <div>Bạn có chắc chắn muốn xóa xe này không?</div>
