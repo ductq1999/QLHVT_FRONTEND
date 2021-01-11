@@ -88,11 +88,6 @@
           </tbody>
         </table>
       </card>
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="pageSize"
-      ></b-pagination>
       <b-modal ref="my-modal" id="modal-scoped">
         <div>Bạn có chắc chắn muốn xóa lương này không?</div>
         <template v-slot:modal-footer="{ cancel }">
